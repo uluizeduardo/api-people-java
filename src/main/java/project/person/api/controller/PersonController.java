@@ -9,6 +9,7 @@ import project.person.api.entities.Person;
 import project.person.api.service.PersonService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/people")
@@ -27,5 +28,11 @@ public class PersonController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public MessageResponseDTO createPerson(@RequestBody @Valid PersonDTO personDTO){
         return personService.createPerson(personDTO);
+    }
+
+    //Método para listar todos os usuários (pessoas)
+    @GetMapping
+    public List<PersonDTO> listAll(){
+        return personService.listAll();
     }
 }

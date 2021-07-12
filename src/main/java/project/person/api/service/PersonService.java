@@ -9,6 +9,9 @@ import project.person.api.entities.Person;
 import project.person.api.mapper.PersonMapper;
 import project.person.api.repository.PersonRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PersonService {
 
@@ -31,5 +34,13 @@ public class PersonService {
                 .builder()
                 .message("Created person with ID " + savePerson.getId())
                 .build();
+    }
+
+    //Método para listar todos os usuários (pessoas)
+    public List<PersonDTO> listAll() {
+        List<Person> allPeople =  personRepository.findAll();
+        return allPeople.stream()
+                .map(personMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }
