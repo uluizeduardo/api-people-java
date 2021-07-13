@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import project.person.api.dto.request.PersonDTO;
 import project.person.api.dto.response.MessageResponseDTO;
 import project.person.api.entities.Person;
+import project.person.api.exception.PersonNotFoundException;
 import project.person.api.mapper.PersonMapper;
 import project.person.api.repository.PersonRepository;
 
@@ -42,5 +43,12 @@ public class PersonService {
         return allPeople.stream()
                 .map(personMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    //Método para buscar usuário(pessoa) por id
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
+        return personMapper.toDTO(person);
     }
 }

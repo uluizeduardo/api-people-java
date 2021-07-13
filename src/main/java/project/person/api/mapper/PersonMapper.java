@@ -6,7 +6,7 @@ import org.mapstruct.factory.Mappers;
 import project.person.api.dto.request.PersonDTO;
 import project.person.api.entities.Person;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PersonMapper {
 
     //Constante que retorna o método Mappers.getMapper
