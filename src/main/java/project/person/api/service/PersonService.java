@@ -1,8 +1,6 @@
 package project.person.api.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 import project.person.api.dto.request.PersonDTO;
 import project.person.api.dto.response.MessageResponseDTO;
 import project.person.api.entities.Person;
@@ -20,13 +18,13 @@ public class PersonService {
 
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
-    @Autowired
+
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
     //Método para criar usuário (Pessoa)
-    @PostMapping
+
     public MessageResponseDTO createPerson(PersonDTO personDTO){
 
         Person personToSave = personMapper.toModel(personDTO);
@@ -47,8 +45,19 @@ public class PersonService {
 
     //Método para buscar usuário(pessoa) por id
     public PersonDTO findById(Long id) throws PersonNotFoundException {
-        Person person = personRepository.findById(id)
-                .orElseThrow(() -> new PersonNotFoundException(id));
+        Person person = verifyPersonExist(id);
         return personMapper.toDTO(person);
+    }
+
+    //Método para deletar usuário(pessoa) pelo ID
+    public void delete(Long id) throws PersonNotFoundException {
+        verifyPersonExist(id);
+        personRepository.deleteById(id);
+    }
+
+    //Método auxiliar para verificar se existe usuário(pessoa) pelo ID
+    public Person verifyPersonExist(Long id) throws PersonNotFoundException {
+        return personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
     }
 }
