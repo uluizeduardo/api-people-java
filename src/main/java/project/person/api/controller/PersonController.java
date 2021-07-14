@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import project.person.api.dto.request.PersonDTO;
 import project.person.api.dto.response.MessageResponseDTO;
+import project.person.api.entities.Person;
 import project.person.api.exception.PersonNotFoundException;
 import project.person.api.service.PersonService;
 
@@ -40,6 +41,12 @@ public class PersonController {
     @ResponseStatus(HttpStatus.OK)
     public PersonDTO FindById(@PathVariable Long id) throws PersonNotFoundException {
         return personService.findById(id);
+    }
+
+    //Método para atualizar usuário(pessoa) através do id
+    @PutMapping("/{id}")
+    public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody PersonDTO personDTO) throws PersonNotFoundException {
+        return personService.updateById(id, personDTO);
     }
 
     @DeleteMapping("/{id}")
