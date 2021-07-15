@@ -1,5 +1,7 @@
 package project.person.api.service;
 
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.person.api.dto.request.PersonDTO;
 import project.person.api.dto.response.MessageResponseDTO;
@@ -12,16 +14,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonService {
 
     private PersonRepository personRepository;
 
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
-
-
-    public PersonService(PersonRepository personRepository) {
-        this.personRepository = personRepository;
-    }
 
     //Método para criar usuário (Pessoa)
     public MessageResponseDTO createPerson(PersonDTO personDTO){
@@ -56,8 +54,8 @@ public class PersonService {
     public MessageResponseDTO updateById(Long id, PersonDTO personDTO) throws PersonNotFoundException {
         verifyPersonExist(id);
 
-        Person persoToUpdate = personMapper.toModel(personDTO);
-        Person personUpdate = personRepository.save(persoToUpdate);
+        Person personToUpdate = personMapper.toModel(personDTO);
+        Person personUpdate = personRepository.save(personToUpdate);
 
         return createMessageResponse(personUpdate.getId(), "Update person with ID ");
     }
